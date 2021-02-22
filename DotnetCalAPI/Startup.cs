@@ -47,6 +47,9 @@ namespace DotnetCal
             // app.UseHttpsRedirection();
 
             app.UseRouting();
+            app.UseCors("AllowAll");
+            
+            app.UseAuthentication();
 
             app.UseAuthorization();
 
