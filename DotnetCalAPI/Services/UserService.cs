@@ -17,9 +17,9 @@ namespace DotnetCal.Services
 
         private readonly IDictionary<string, string> _users = new Dictionary<string, string>
         {
-            { "test1", "password1" },
-            { "test2", "password2" },
-            { "admin", "securePassword" }
+            { "vince", "secret" },
+            { "artem", "secret2" },
+            { "admin", "superSecret" }
         };
         // inject your database here for user validation
         public UserService(ILogger<UserService> logger)
