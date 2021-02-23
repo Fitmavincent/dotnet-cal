@@ -2,6 +2,7 @@ using System;
 using System.Text;
 using DotnetCal.Entities;
 using DotnetCal.Services;
+using DotnetCal.Middleware;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -15,6 +16,7 @@ namespace DotnetCal
 {
     public class Startup
     {
+        readonly string CorsPolicy = "_corsPolicy";
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -26,6 +28,7 @@ namespace DotnetCal
         public void ConfigureServices(IServiceCollection services)
         {
 
+            services.AddCors();
             services.AddControllers();
 
             var jwtTokenConfig = Configuration.GetSection("jwtTokenConfig").Get<JwtTokenConfig>();
@@ -78,18 +81,13 @@ namespace DotnetCal
                 {
                     {securityScheme, new string[] { }}
                 });
-
-                services.AddCors(options =>
-                {
-                    options.AddPolicy("AllowAll",
-                        builder => { builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader(); });
-                });
             });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
-        {
+        {      
+            app.UseCorsMiddleware();
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -100,7 +98,23 @@ namespace DotnetCal
             // app.UseHttpsRedirection();
 
             app.UseRouting();
-            app.UseCors("AllowAll");            
+
+            /***
+                This is outrages, the CORS issue in Dotnet core, none of the stackoverflow sln works
+                Even in their own official docs, none of approach is working
+                https://docs.microsoft.com/en-us/aspnet/core/security/cors?view=aspnetcore-3.1#cors-with-named-policy-and-middleware
+
+                The only working one:
+                https://jasonwatmore.com/post/2020/05/20/aspnet-core-api-allow-cors-requests-from-any-origin-and-with-credentials
+            **/
+            
+            // global cors policy
+            app.UseCors(x => x
+                .AllowAnyMethod()
+                .AllowAnyHeader()
+                .SetIsOriginAllowed(origin => true) // allow any origin
+                .AllowCredentials()); // allow credentials
+
             app.UseAuthentication();
             app.UseAuthorization();
 

@@ -7,12 +7,14 @@ using DotnetCal.Entities;
 using DotnetCal.Services;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 
 namespace DotnetCal.Controllers
 {
+    // [EnableCors("_corsPolicy")]
     [ApiController]
     [Authorize]
     [Route("api/[controller]")]
@@ -29,8 +31,8 @@ namespace DotnetCal.Controllers
             _jwtAuthManager = jwtAuthManager;
         }
 
-        [AllowAnonymous]
-        [HttpPost("login")]
+        [AllowAnonymous]        
+        [HttpPost("login")]        
         public ActionResult Login([FromBody] LoginRequest request)
         {
             if (!ModelState.IsValid)
