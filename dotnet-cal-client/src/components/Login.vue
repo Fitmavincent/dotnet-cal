@@ -5,7 +5,7 @@
         <el-input v-model="form.username"></el-input>
       </el-form-item>
       <el-form-item label="Password">
-        <el-input v-model="form.password"></el-input>
+        <el-input v-model="form.password" type="password"></el-input>
       </el-form-item>      
 
       <el-alert v-show="isError" :title="error" type="error" center show-icon></el-alert>
@@ -23,7 +23,7 @@
 export default {
   mixins: [],
   mounted() {
-    console.log("Login mounted", this.$store);
+    
   },
   data() {
     return {
@@ -39,7 +39,7 @@ export default {
     onSubmit(e){
       this.isError = false;
       e.preventDefault();      
-      window.axios.post('http://localhost:5000/api/user/login', {
+      window.axios.post(`${process.env.VUE_APP_API_URL}/user/login`, {
         username: this.form.username,
         password: this.form.password,
       }).then((response) => {

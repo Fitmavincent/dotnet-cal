@@ -17,7 +17,9 @@
 
     <el-row>
       <el-button type="primary" @click="clear">Clear</el-button>      
-    </el-row>   
+    </el-row>
+
+    <el-alert v-show="isError" :title="error" type="error" center show-icon></el-alert>
 
   </div>
 </template>
@@ -33,7 +35,9 @@ export default {
       num1: 0,
       num2: 0,
       arithmetic: "+",
-      result: 0
+      result: 0,
+      error: "",
+      isError: false,
     };
   },
   methods: {
@@ -44,27 +48,31 @@ export default {
     },
     add() {      
       this.arithmetic = "+";
-      this.getResult("http://localhost:5000/api/arithmetic/add");      
+      this.getResult(`${process.env.VUE_APP_API_URL}/arithmetic/add`);
     },
     sub() {      
       this.arithmetic = "-";
-      this.getResult("http://localhost:5000/api/arithmetic/sub");
+      this.getResult(`${process.env.VUE_APP_API_URL}/arithmetic/sub`);
     },
     multiply() {
       this.arithmetic = "*";
-      this.getResult("http://localhost:5000/api/arithmetic/multiply");
+      this.getResult(`${process.env.VUE_APP_API_URL}/arithmetic/multiply`);
     },
     divide() {      
       this.arithmetic = "/";
-      this.getResult("http://localhost:5000/api/arithmetic/divide");
+      this.getResult(`${process.env.VUE_APP_API_URL}/arithmetic/divide`);
     },
     getResult(url){
+      this.isError = false;
       window.axios.get(url, {
         params: { num1: this.num1, num2: this.num2 }
       }).then((response) => {
         this.result = response.data;
       }).catch((error) => {
-        console.log(error);
+        this.isError = true;
+        if(error.response?.data) {
+          this.error = error.response.data?.title;
+        }
       })
     }
   }
