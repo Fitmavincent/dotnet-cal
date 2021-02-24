@@ -40,6 +40,7 @@ export default {
     clear() {
       this.num1 = 0;
       this.num2 = 0;
+      this.result = 0;
     },
     add() {      
       this.arithmetic = "+";
