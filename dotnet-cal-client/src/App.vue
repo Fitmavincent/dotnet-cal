@@ -1,22 +1,38 @@
 <template>
   <div id="app">
     <el-container>
-      <el-header height="60px"></el-header>
+      <el-header height="60px">
+        <el-menu v-if="accessToken" mode="horizontal">
+          <el-submenu index="1">
+            <template slot="title">{{ username }}</template>
+            <el-menu-item index="1-1">{{ role }}</el-menu-item>
+            <el-menu-item index="1-2" @click="logout">Logout</el-menu-item>
+          </el-submenu>
+        </el-menu>
+      </el-header>
+
       <el-main>
-        <Calculator />
-        <Login />
+        <Calculator v-if="accessToken"/>
+        <Login v-if="!accessToken"/>
       </el-main>      
+
       <el-footer height="60px"></el-footer>
     </el-container>    
   </div>
 </template>
 
 <script>
-import Calculator from './components/Calculator.vue'
 
-export default {
-  components: { Calculator },
-  name: 'App',  
+export default { 
+  name: 'app', 
+  mounted() {    
+    
+  },
+  methods: {
+    logout() {
+      this.unauthorizeUser();
+    }
+  }
 }
 </script>
 

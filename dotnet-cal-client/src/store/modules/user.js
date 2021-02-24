@@ -1,37 +1,28 @@
 export const user = {
   namespaced: true,
   state: {
-    access_token: "",
-    refresh_token: "",
-    username: "",
-    role: "",
+    user: {}    
   },
   getters: {
     getAccessToken: state => {
-      return state.access_token;
+      return state.user?.accessToken;
     },
     getRefreshToken: state => {
-      return state.refresh_token;
+      return state.user?.refreshToken;
     },
     getUsername: state => {
-      return state.username;
+      return state.user?.username;
     },
     getRole: state => {
-      return state.role;
+      return state.user?.role;
     }
   },
   mutations: {
-    updateUser(state, user) {      
-      state.access_token = user.access_token;
-      state.refresh_token = user.refresh_token;
-      state.username = user.username;
-      state.role = user.role;
+    updateUser(state, user) {
+      if(user) state.user = user;
     },
     removeUser(state) {
-      state.access_token = "";
-      state.refresh_token = "";
-      state.username = "";
-      state.role = "";
+      state.user = null;
     }
   },
   actions: {

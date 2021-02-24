@@ -2,10 +2,10 @@ import Vue from 'vue'
 import App from './App.vue'
 import store from './store';
 import ElementUI from 'element-ui';
-import globalMixin from './mixins/globalMixin'
+import globalMixin from './mixins/globalMixin';
 import 'element-ui/lib/theme-chalk/index.css';
 
-
+window.axios = require('axios')
 Vue.use(ElementUI);
 Vue.mixin(globalMixin);
 Vue.config.productionTip = false
@@ -15,5 +15,5 @@ files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(
 
 new Vue({
   render: h => h(App),
-  store: store
+  store,
 }).$mount('#app')
