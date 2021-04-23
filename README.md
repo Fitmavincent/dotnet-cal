@@ -8,7 +8,7 @@
     Go to the ```DotnetCal``` directory, generate the cert
 
     ```
-    dotnet dev-cert https -ep \https\aspnetapp.pfx -p {password of your choice}
+    dotnet dev-certs https -ep \https\aspnetapp.pfx -p {password of your choice}
     ```
     
     Password default to ```secret```, change it as you please. But remember to change it on ```docker-compose``` as well 
