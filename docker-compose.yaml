@@ -3,14 +3,10 @@ services:
   dotnetcal:
     build: DotnetCalAPI/
     ports:
-    - "5000:80"
-    - "5001:443"
+    - "5000:80"    
     environment:
-      ASPNETCORE_URLS: "https://+;http://+"
-      ASPNETCORE_HTTPS_PORT: "8001"
-      ASPNETCORE_ENVIRONMENT: Development
-      ASPNETCORE_Kestrel__Certificates__Default__Password: "secret" 
-      ASPNETCORE_Kestrel__Certificates__Default__Path: "/https/aspnetapp.pfx"
+      ASPNETCORE_URLS: "http://+"      
+      ASPNETCORE_ENVIRONMENT: Development      
     volumes:
       - ${APPDATA}\microsoft\UserSecrets\:/root/.microsoft/usersecrets
-      - ./https:/https/:ro
+      - ./DotnetCalAPI/https:/https/:ro

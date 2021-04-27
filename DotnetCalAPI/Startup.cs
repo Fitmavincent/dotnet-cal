@@ -2,7 +2,6 @@ using System;
 using System.Text;
 using DotnetCal.Entities;
 using DotnetCal.Services;
-using DotnetCal.Middleware;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -86,17 +85,14 @@ namespace DotnetCal
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
-        {      
-            app.UseCorsMiddleware();
+        {            
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
                 app.UseSwagger();
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "DotnetCal v1"));
             }
-
-            // app.UseHttpsRedirection();
-
+        
             app.UseRouting();
 
             /***
